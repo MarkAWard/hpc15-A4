@@ -1,0 +1,46 @@
+mac Iris 20x20
+202.014691 MPixels/s
+1.616118 GBit/s
+9.778781 GFlop/s
+mac Iris 16x16
+247.879646 MPixels/s
+1.983037 GBit/s
+11.998933 GFlop/s
+mac Iris 8x8
+233.540690 MPixels/s
+1.868326 GBit/s
+11.304837 GFlop/s
+mac Iris 4x4
+77.584586 MPixels/s
+0.620677 GBit/s
+3.755582 GFlop/s
+
+cuda3 Tesla T10 20x20
+289.573305 MPixels/s
+2.316586 GBit/s
+14.017168 GFlop/s
+cuda3 Tesla T10 16x16
+320.996740 MPixels/s
+2.567974 GBit/s
+15.538260 GFlop/s
+cuda3 Tesla T10 8x8
+281.642140 MPixels/s
+2.253137 GBit/s
+13.633250 GFlop/s
+cuda3 Tesla T10 4x4
+152.373329 MPixels/s
+1.218987 GBit/s
+7.375827 GFlop/s
+
+opencl1 Cypress 16x16
+283.376775 MPixels/s
+2.267014 GBit/s
+13.717217 GFlop/s
+opencl1 Cypress 8x8
+208.958362 MPixels/s
+1.671667 GBit/s
+10.114898 GFlop/s
+opencl1 Cypress 4x4
+48.391521 MPixels/s
+0.387132 GBit/s
+2.342454 GFlop/s
