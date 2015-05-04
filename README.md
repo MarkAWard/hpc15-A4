@@ -1,6 +1,6 @@
 # hpc15-A4
 
-I used the below image to time the performance of the convolution algorithm on different platforms.
+a) I used the below image to time the performance of the convolution algorithm on different platforms.
 ![](/bike.jpg?raw=True "Original bike")
 
 The final blurred version of the image looked like this:
@@ -25,3 +25,10 @@ Here are the times and performance measures for different devices and cofigurati
 We can see that I did not get better performance using a different local work group size instead of the default 16x16.
 
 
+b) To apply the convultion to the same image over and over agian, I added a function call to copy the image from the output buffer (on the device) back to the input buffer (also on the device). Below is an original image followed by a sequence of multiple blurring applications to that same image (1, 2, 5, 25, and 50 times):
+![](/car.jpg?raw=True "Original car")
+![](/car-blur0.jpg?raw=True "car blur0")
+![](/car-blur1.jpg?raw=True "car blur1")
+![](/car-blur5.jpg?raw=True "car blur5")
+![](/car-blur25.jpg?raw=True "car blur25")
+![](/car-blur50.jpg?raw=True "car blur50")
