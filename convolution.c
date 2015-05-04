@@ -17,6 +17,7 @@
 #define WGX 16
 #define WGY 16
 
+#define NON_OPTIMIZED
 
 void print_kernel_info(cl_command_queue queue, cl_kernel knl)
 {
@@ -98,15 +99,16 @@ int main(int argc, char *argv[])
   // };
 
 
-  if(argc != 3)
+  if(argc < 3 || argc > 4 )
   {
-    fprintf(stderr, "Usage: %s image.ppm num_loops\n", argv[0]);
+    fprintf(stderr, "Usage: %s image.ppm num_loops [save_freq]\n", argv[0]);
     abort();
   }
 
   const char* filename = argv[1];
   const int num_loops = atoi(argv[2]);
-
+  int FREQ = 5;
+  if(argc == 4) FREQ = atoi(argv[3]);
 
   // --------------------------------------------------------------------------
   // load image
@@ -257,10 +259,27 @@ int main(int argc, char *argv[])
   CALL_CL_SAFE(clFinish(queue));
   timestamp_type tic, toc;
   get_timestamp(&tic);
+  char buff [50];
   for(int loop = 0; loop < num_loops; ++loop)
   {
+    // call kernel
     CALL_CL_SAFE(clEnqueueNDRangeKernel(queue, knl, 2, NULL,
           global_size, local_size, 0, NULL, NULL));
+    // copy the image output buffer back to the input buffer
+    CALL_CL_SAFE(clEnqueueCopyBuffer(queue, buf_congray, buf_gray, 
+    				     0, 0, deviceDataSize, 0, NULL, NULL));
+    // write image to file every other loop
+    if(loop % FREQ == 0){
+      CALL_CL_SAFE(clEnqueueReadBuffer(
+		   queue, buf_congray, /*blocking*/ CL_TRUE, /*offset*/ 0,
+		   xsize * ysize * sizeof(float), congray_cl,
+		   0, NULL, NULL));
+      for(int n = 0; n < xsize*ysize; ++n)
+	r[n] = g[n] = b[n] = (int)(congray_cl[n] * rgb_max);
+      sprintf(buff, "output_cl_%d.ppm", loop);
+      error = ppma_write(buff, xsize, ysize, r, g, b);
+      if(error) { fprintf(stderr, "error writing image"); abort(); }
+    }
   }
   CALL_CL_SAFE(clFinish(queue));
   get_timestamp(&toc);
